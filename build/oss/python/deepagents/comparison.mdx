@@ -1,0 +1,61 @@
+---
+title: Comparison with Claude Agent SDK and Codex
+sidebarTitle: Comparison
+description: Compare LangChain Deep Agents with Claude Agent SDK and Codex SDK to choose the right tool for your use case
+---
+
+This page helps you understand how [LangChain Deep Agents](/oss/python/deepagents/overview) compare to the [Claude Agent SDK](https://platform.anthropic.com/docs/en/agent-sdk/overview) and the [Codex SDK](https://developers.openai.com/codex/sdk).
+
+## Overview
+
+| Aspect | **LangChain Deep Agents** | **Claude Agent SDK** | **Codex SDK** |
+| ------ | ------------------------- | -------------------- | ------------- |
+| **Primary use case** | Interactive coding agent in temrminal or IDE; Build production agents programmatically with SDK | Build production agents programmatically | Interactive coding agent (CLI, desktop, IDE, cloud); Build production agents programmatically with SDK |
+| **Model support** | Model-agnostic (Anthropic, OpenAI, and 100s others) | Claude models (Anthropic, Azure, Vertex AI, AWS Bedrock) | OpenAI models (GPT-5.3-Codex and variants) |
+| **License** | MIT | MIT (underlying Claude Code is proprietary) | Apache-2.0 |
+| **Architecture** | Python SDK, TypeScript SDK, and CLI | Python SDK, TypeScript SDK | TypeScript SDK, CLI, desktop app, IDE extension, cloud interface |
+
+## Feature comparison
+
+| Feature | **Deep Agents** | **Claude Agent SDK** | **Codex SDK** |
+| ------- | --------------- | -------------------- | ------------- |
+<tr><td colspan="4"><strong>Core tools</strong></td></tr>
+| File Read/Write/Edit | ✅ [`ls`, `read_file`, `write_file`, `edit_file`](/oss/python/deepagents/harness#virtual-filesystem-access) | ✅ [Read, write, edit](https://platform.claude.com/docs/en/agent-sdk/overview#capabilities) | ✅ Built-in |
+| Shell Execution | ✅ [`execute`](/oss/python/deepagents/) | ✅ [bash](https://platform.claude.com/docs/en/agent-sdk/overview#capabilities) | ✅ [`exec`](https://developers.openai.com/codex/cli/features#scripting-codex) |
+| Glob/Grep | ✅ [`glob`, `grep`](/oss/python/deepagents/harness#virtual-filesystem-access)| ✅ [glob, grep](https://platform.claude.com/docs/en/agent-sdk/overview#capabilities) | ✅ Built-in |
+| Web Search | ✅ support for [third-party](/oss/python/deepagents/customization#tools) and [provider-native](/oss/python/integrations/chat/openai#web-search) | ✅ [WebSearch, WebFetch](https://platform.claude.com/docs/en/agent-sdk/overview#capabilities) | ✅ [`web_search`](https://developers.openai.com/codex/cli/features#web-search) |
+| Planning/Todos | ✅ [`write_todos`](/oss/python/deepagents/harness#planning-capabilities) | ✅ [Todo lists](https://platform.claude.com/docs/en/agent-sdk/todo-tracking) | ✅ [Plan before changes](https://developers.openai.com/codex/cli/features) |
+| Subagents | ✅ [Subagents](/oss/python/deepagents/subagents) | ✅ [Subagents](https://platform.claude.com/docs/en/agent-sdk/subagents) | ✅ [Multi-agent workflows](https://developers.openai.com/codex/concepts/multi-agents) (experimental) via MCP + Agents SDK |
+| MCP Support | ✅ | ✅ [MCP](https://platform.claude.com/docs/en/agent-sdk/mcp) | ✅ [MCP client](https://developers.openai.com/codex/mcp) and [server](https://developers.openai.com/codex/guides/agents-sdk/) |
+| Human-in-the-Loop | ✅ [Approve/edit/reject](/oss/python/deepagents/human-in-the-loop#decision-types) | ✅ [Permission modes](https://platform.claude.com/docs/en/agent-sdk/permissions) | ✅ [Approval modes](https://developers.openai.com/codex/cli/features#approval-modes) (Full Access, Read-only, Auto) |
+| Skills System | ✅ [Skills](/oss/python/deepagents/skills) | ✅ [Skills](https://platform.claude.com/docs/en/agent-sdk/skills) | ✅ [Skills](https://developers.openai.com/codex/skills) |
+| Additional instructions | ✅ [Memory](https://docs.langchain.com/oss/python/deepagents/customization#memory) | ✅ [CLAUDE.md files](https://platform.claude.com/docs/en/agent-sdk/modifying-system-prompts#method-1-claude-md-files-project-level-instructions) | ✅ [AGENTS.md](https://developers.openai.com/codex/guides/agents-md) |
+| Long-term memory | ✅ [Memory Store](/oss/python/deepagents/long-term-memory) | ❌ | ❌ |
+| Streaming | ✅ [Streaming](/oss/python/deepagents/streaming/overview) | ✅ [Streaming](https://platform.claude.com/docs/en/agent-sdk/streaming-output) | ✅ [Streaming](https://github.com/openai/codex/blob/main/sdk/typescript/README.md#streaming-responses) |
+<tr><td colspan="4"><strong>Sandbox Integrations</strong></td></tr>
+| Agent runs in sandbox | ✅ [Can run in sandbox](/oss/python/python/deepagents/sandboxes#agent-in-sandbox-pattern) | ✅ [Can run in sandbox](https://platform.claude.com/docs/en/agent-sdk/hosting) | ✅ [Can run in sandbox](https://developers.openai.com/codex/security#os-level-sandbox) |
+| Agent runs operations in sandboxes | ✅ [Uses sandboxes as tools](/oss/python/deepagents/sandboxes#sandbox-as-tool-pattern) | ❌ | ❌ |
+| OS-level sandbox modes | ❌ | ❌ | ✅ `read-only`, `workspace-write`, and `danger-full-access` |
+<tr><td colspan="4"><strong>Architecture</strong></td></tr>
+| Composable Middleware | ✅ | [Hooks](https://platform.claude.com/docs/en/agent-sdk/hooks) | ❌ |
+| Virtual Filesystems | ✅ [Virtual filesystem](/oss/python/deepagents/harness#virtual-filesystem-access) with [pluggable backends](/oss/python/deepagents/backends) | ❌ | ❌ |
+<tr><td colspan="4"><strong>State management</strong></td></tr>
+| Session Resume | ✅ | ✅ [Session management](https://platform.claude.com/docs/en/agent-sdk/sessions) | ✅ [Resume threads](https://developers.openai.com/codex/cli/features#resuming-conversations); SDK `resumeThread()` |
+| File Checkpointing | ✅ [Backends and checkpoints](/oss/python/deepagents/backends#built-in-backends) | ✅ [File checkpointing](https://platform.claude.com/docs/en/agent-sdk/file-checkpointing) | ✅ [Git checkpoints](https://developers.openai.com/codex/config-basic) |
+| Time Travel (state branching) | ✅ | ✅ | ✅ |
+<tr><td colspan="4"><strong>Observability</strong></td></tr>
+| Native Tracing | ✅ [LangSmith](/langsmith/home) | ❌ | ✅ [OpenAI Traces](https://developers.openai.com/codex/guides/agents-sdk/#trace-the-workflow) |
+
+## Notice a mistake?
+
+We drafted this comparison on February 18th, 2026.
+If you notice mistakes or changes in products, please [file an issue](https://github.com/langchain-ai/docs/issues).
+
+---
+
+<Callout icon="edit">
+    [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/deepagents/comparison.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).
+</Callout>
+<Callout icon="terminal-2">
+    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+</Callout>
